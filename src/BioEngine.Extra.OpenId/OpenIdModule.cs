@@ -9,10 +9,12 @@ namespace BioEngine.Extra.OpenId
 {
     public abstract class OpenIdModule<TConfig> : BaseBioEngineModule<TConfig> where TConfig : OpenIdModuleConfig
     {
-        public override void ConfigureServices(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
+        public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
+            IHostEnvironment environment)
         {
             base.ConfigureServices(services, configuration, environment);
             services.AddScoped<IUserDataProvider, OpenIdUserDataProvider>();
+            services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider>();
         }
     }
 

@@ -6,7 +6,7 @@ namespace BioEngine.Extra.OpenId
 {
     public class OpenIdUserDataProvider : IUserDataProvider
     {
-        public Task<List<IUser>> GetDataAsync(int[] userIds)
+        public Task<List<IUser>> GetDataAsync(string[] userIds)
         {
             throw new System.NotImplementedException();
         }
