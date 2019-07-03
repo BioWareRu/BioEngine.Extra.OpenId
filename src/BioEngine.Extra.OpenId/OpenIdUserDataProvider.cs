@@ -8,7 +8,7 @@ namespace BioEngine.Extra.OpenId
     {
         public Task<List<IUser>> GetDataAsync(string[] userIds)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(new List<IUser>());
         }
     }
 }
