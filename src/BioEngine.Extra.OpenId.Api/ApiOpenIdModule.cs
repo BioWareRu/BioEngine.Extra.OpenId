@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using BioEngine.Core.Api.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,17 +22,29 @@ namespace BioEngine.Extra.OpenId.Api
                 options.Audience = Config.Audience;
                 options.RequireHttpsMetadata = !environment.IsDevelopment();
             });
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(BioPolicies.Admin,
+                    builder => builder.RequireAuthenticatedUser().RequireClaim(ClaimTypes.Role, "admin"));
+                options.AddPolicy(BioPolicies.User, builder => builder.RequireAuthenticatedUser());
+                foreach (var policy in Config.Policies)
+                {
+                    options.AddPolicy(policy.Key, policy.Value);
+                }
+            });
         }
     }
 
     public class ApiOpenIdModuleConfig : OpenIdModuleConfig
     {
         public string Audience { get; }
+        public Dictionary<string, AuthorizationPolicy> Policies { get; }
 
-        public ApiOpenIdModuleConfig(Uri serverUri, string audience) : base(serverUri)
+        public ApiOpenIdModuleConfig(Uri serverUri, string audience, Dictionary<string, AuthorizationPolicy> policies) :
+            base(serverUri)
         {
             Audience = audience;
+            Policies = policies;
         }
     }
 }
