@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BioEngine.Core.Site" Version="3.0.*" Condition="!Exists('..\..\..\BioEngine.Core')" />
-    <PackageReference Include="IdentityModel" Version="4.0.0-preview.2.33" />
+    <PackageReference Include="IdentityModel" Version="4.0.0-preview.2.39" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BioEngine.Core\src\BioEngine.Core.Site\BioEngine.Core.Site.csproj" Condition="Exists('..\..\..\BioEngine.Core')" />

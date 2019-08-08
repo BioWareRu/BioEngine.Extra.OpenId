@@ -1,5 +1,6 @@
 using System;
 using BioEngine.Core.Abstractions;
+using BioEngine.Core.DB;
 using BioEngine.Core.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,12 @@ namespace BioEngine.Extra.OpenId
             base.ConfigureServices(services, configuration, environment);
             services.AddScoped<IUserDataProvider, OpenIdUserDataProvider>();
             services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider>();
+        }
+
+        public override void ConfigureEntities(IServiceCollection serviceCollection, BioEntitiesManager entitiesManager)
+        {
+            base.ConfigureEntities(serviceCollection, entitiesManager);
+            RegisterRepositories(typeof(User).Assembly, serviceCollection, entitiesManager);
         }
     }
 
