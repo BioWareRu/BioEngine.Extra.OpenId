@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace BioEngine.Extra.OpenId
 {
-    public class OpenIdCurrentUserProvider : ICurrentUserProvider
+    public class OpenIdCurrentUserProvider<TUser> : ICurrentUserProvider where TUser : IUser, new()
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public IUser CurrentUser =>
-            new User
+            new TUser
             {
                 Id =
                     _httpContextAccessor.HttpContext.User.Claims

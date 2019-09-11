@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using BioEngine.Core.Abstractions;
 using BioEngine.Core.Api.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace BioEngine.Extra.OpenId.Api
 {
-    public class ApiOpenIdModule : OpenIdModule<ApiOpenIdModuleConfig>
+    public class
+        ApiOpenIdModule<TUser, TUserDataProvider> : OpenIdModule<ApiOpenIdModuleConfig, TUser, TUserDataProvider>
+        where TUser : IUser, new() where TUserDataProvider : class, IUserDataProvider
     {
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
             IHostEnvironment environment)

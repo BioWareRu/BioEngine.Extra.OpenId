@@ -8,20 +8,21 @@ using Microsoft.Extensions.Hosting;
 
 namespace BioEngine.Extra.OpenId
 {
-    public abstract class OpenIdModule<TConfig> : BaseBioEngineModule<TConfig> where TConfig : OpenIdModuleConfig
+    public abstract class OpenIdModule<TConfig, TUser, TUserDataProvider> : BaseBioEngineModule<TConfig>
+        where TConfig : OpenIdModuleConfig where TUserDataProvider : class, IUserDataProvider where TUser : IUser, new()
     {
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
             IHostEnvironment environment)
         {
             base.ConfigureServices(services, configuration, environment);
-            services.AddScoped<IUserDataProvider, OpenIdUserDataProvider>();
-            services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider>();
+            services.AddScoped<IUserDataProvider, TUserDataProvider>();
+            services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider<TUser>>();
         }
 
         public override void ConfigureEntities(IServiceCollection serviceCollection, BioEntitiesManager entitiesManager)
         {
             base.ConfigureEntities(serviceCollection, entitiesManager);
-            RegisterRepositories(typeof(User).Assembly, serviceCollection, entitiesManager);
+            RegisterRepositories(typeof(TUser).Assembly, serviceCollection, entitiesManager);
         }
     }
 
