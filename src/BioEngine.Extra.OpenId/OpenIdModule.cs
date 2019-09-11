@@ -18,12 +18,6 @@ namespace BioEngine.Extra.OpenId
             services.AddScoped<IUserDataProvider, TUserDataProvider>();
             services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider<TUser>>();
         }
-
-        public override void ConfigureEntities(IServiceCollection serviceCollection, BioEntitiesManager entitiesManager)
-        {
-            base.ConfigureEntities(serviceCollection, entitiesManager);
-            RegisterRepositories(typeof(TUser).Assembly, serviceCollection, entitiesManager);
-        }
     }
 
     public abstract class OpenIdModuleConfig
