@@ -1,11 +1,6 @@
 using System;
 using BioEngine.Core.Abstractions;
-using BioEngine.Core.DB;
-using BioEngine.Core.Modules;
 using BioEngine.Core.Users;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace BioEngine.Extra.OpenId
 {
