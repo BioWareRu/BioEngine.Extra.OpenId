@@ -2,25 +2,20 @@ using System;
 using BioEngine.Core.Abstractions;
 using BioEngine.Core.DB;
 using BioEngine.Core.Modules;
+using BioEngine.Core.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace BioEngine.Extra.OpenId
 {
-    public abstract class OpenIdModule<TConfig, TUser, TUserDataProvider> : BaseBioEngineModule<TConfig>
+    public abstract class OpenIdModule<TConfig, TUser, TUserDataProvider> : BaseUsersModule<TConfig, TUser,
+        TUserDataProvider, OpenIdCurrentUserProvider<TUser>>
         where TConfig : OpenIdModuleConfig where TUserDataProvider : class, IUserDataProvider where TUser : IUser, new()
     {
-        public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
-            IHostEnvironment environment)
-        {
-            base.ConfigureServices(services, configuration, environment);
-            services.AddScoped<IUserDataProvider, TUserDataProvider>();
-            services.AddScoped<ICurrentUserProvider, OpenIdCurrentUserProvider<TUser>>();
-        }
     }
 
-    public abstract class OpenIdModuleConfig
+    public abstract class OpenIdModuleConfig : BaseUsersModuleConfig
     {
         public Uri ServerUri { get; }
 

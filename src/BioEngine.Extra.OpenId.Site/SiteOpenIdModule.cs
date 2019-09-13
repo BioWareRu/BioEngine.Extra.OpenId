@@ -53,8 +53,6 @@ namespace BioEngine.Extra.OpenId.Site
 
                     options.ClaimActions.MapAll();
                 }).AddAutomaticTokenManagement();
-
-            services.AddAuthorization();
         }
     }
 
