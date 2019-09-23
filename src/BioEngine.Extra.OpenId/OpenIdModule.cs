@@ -1,12 +1,13 @@
 using System;
-using BioEngine.Core.Abstractions;
 using BioEngine.Core.Users;
 
 namespace BioEngine.Extra.OpenId
 {
-    public abstract class OpenIdModule<TConfig, TUser, TUserDataProvider> : BaseUsersModule<TConfig, TUser,
-        TUserDataProvider, OpenIdCurrentUserProvider<TUser>>
-        where TConfig : OpenIdModuleConfig where TUserDataProvider : class, IUserDataProvider where TUser : IUser, new()
+    public abstract class OpenIdModule<TConfig, TUser, TUserPk, TUserDataProvider> : BaseUsersModule<TConfig, TUserPk,
+        TUserDataProvider, OpenIdCurrentUserProvider<TUser, TUserPk>>
+        where TConfig : OpenIdModuleConfig
+        where TUserDataProvider : class, IUserDataProvider<TUserPk>
+        where TUser : IUser<TUserPk>, new()
     {
     }
 
