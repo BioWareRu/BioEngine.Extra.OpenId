@@ -16,8 +16,8 @@ namespace BioEngine.Extra.OpenId
         public IUser<TUserPk> CurrentUser =>
             new TUser
             {
-                Id = JsonConvert.DeserializeObject<TUserPk>(_httpContextAccessor.HttpContext.User.Claims
-                    .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value),
+                Id = JsonConvert.DeserializeObject<TUserPk>(
+                    $"\"{_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value}\""),
                 Name =
                     _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)
                         ?.Value,
