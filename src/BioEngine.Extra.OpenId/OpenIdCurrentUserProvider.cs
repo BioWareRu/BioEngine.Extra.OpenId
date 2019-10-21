@@ -1,22 +1,23 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BioEngine.Core.Abstractions;
+using BioEngine.Core.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace BioEngine.Extra.OpenId
 {
-    public class OpenIdCurrentUserProvider<TUser> : ICurrentUserProvider where TUser : IUser, new()
+    public class OpenIdCurrentUserProvider<TUser, TUserPk> : ICurrentUserProvider<TUserPk>
+        where TUser : IUser<TUserPk>, new()
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public IUser CurrentUser =>
+        public IUser<TUserPk> CurrentUser =>
             new TUser
             {
-                Id =
-                    _httpContextAccessor.HttpContext.User.Claims
-                        .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
+                Id = JsonConvert.DeserializeObject<TUserPk>(
+                    $"\"{_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value}\""),
                 Name =
                     _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)
                         ?.Value,

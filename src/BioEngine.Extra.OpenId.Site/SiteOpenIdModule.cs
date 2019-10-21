@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BioEngine.Core.Abstractions;
+using BioEngine.Core.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +11,9 @@ using Microsoft.Extensions.Hosting;
 namespace BioEngine.Extra.OpenId.Site
 {
     public class
-        SiteOpenIdModule<TUser, TUserDataProvider> : OpenIdModule<SiteOpenIdModuleConfig, TUser, TUserDataProvider>
-        where TUser : IUser, new() where TUserDataProvider : class, IUserDataProvider
+        SiteOpenIdModule<TUser, TUserPk, TUserDataProvider> : OpenIdModule<SiteOpenIdModuleConfig, TUser, TUserPk,
+            TUserDataProvider>
+        where TUser : IUser<TUserPk>, new() where TUserDataProvider : class, IUserDataProvider<TUserPk>
     {
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
             IHostEnvironment environment)

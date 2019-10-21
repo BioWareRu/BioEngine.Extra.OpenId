@@ -1,5 +1,5 @@
 using System;
-using BioEngine.Core.Abstractions;
+using BioEngine.Core.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,8 +8,9 @@ using Microsoft.Extensions.Hosting;
 namespace BioEngine.Extra.OpenId.Api
 {
     public class
-        ApiOpenIdModule<TUser, TUserDataProvider> : OpenIdModule<ApiOpenIdModuleConfig, TUser, TUserDataProvider>
-        where TUser : IUser, new() where TUserDataProvider : class, IUserDataProvider
+        ApiOpenIdModule<TUser, TUserPk, TUserDataProvider> : OpenIdModule<ApiOpenIdModuleConfig, TUser, TUserPk,
+            TUserDataProvider>
+        where TUser : IUser<TUserPk>, new() where TUserDataProvider : class, IUserDataProvider<TUserPk>
     {
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration,
             IHostEnvironment environment)
